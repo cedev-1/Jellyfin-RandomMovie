@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Config - Random Movie</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'zinc': {
+              900: '#18181b'
+            }
+          }
+        }
+      },
+    }
+  </script>
+  <style>
+    body {
+      min-height: 100vh;
+      background-color: #18181b;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-zinc-900 relative text-white">
+
+  <div class="fixed inset-0 -z-10">
+    <img src="/static/background.png" alt="" class="w-full h-full object-cover object-center" />
+    <div class="absolute inset-0 bg-zinc-900/85 backdrop-blur-[10px]"></div>
+  </div>
+
+  <div class="max-w-xl w-full mx-auto mt-0 flex flex-col items-center justify-center min-h-screen px-4">
+    <div class="w-full text-center mb-6">
+      <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-400 to-violet-500 bg-clip-text text-transparent mb-2">⚙️ Configuration</h1>
+      <p class="text-base opacity-80">Set up your Jellyfin server to get started</p>
+    </div>
+
+    {{if eq .Step "user_selection"}}
+    <form method="post" class="w-full flex flex-col gap-6 bg-zinc-900/70 backdrop-blur-md rounded-xl p-6 shadow-lg border border-white/10">
+      <div class="flex flex-col gap-2 text-left">
+        <label for="user_id" class="font-medium text-base">Choose your Jellyfin user</label>
+        <select id="user_id" name="user_id" required class="rounded-lg px-3 py-2 bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">-- Select a user --</option>
+          {{range .Users}}
+            <option value="{{.Id}}">{{.Name}}</option>
+          {{end}}
+        </select>
+      </div>
+      <input type="hidden" name="user_name" value="">
+      <button type="submit" class="mt-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg px-5 py-2 transition hover:scale-105 shadow">Confirm</button>
+    </form>
+    {{else}}
+    <form method="post" class="w-full flex flex-col gap-6 bg-zinc-900/70 backdrop-blur-md rounded-xl p-6 shadow-lg border border-white/10">
+      <div class="flex flex-col gap-2 text-left">
+        <label for="jellyfin_url" class="font-medium text-base">Your Jellyfin server URL:</label>
+        <input type="url" id="jellyfin_url" name="jellyfin_url" placeholder="http://localhost:8096" required class="rounded-lg px-3 py-2 bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <div class="flex flex-col gap-2 text-left">
+        <label for="api_key" class="font-medium text-base">Jellyfin API Key:</label>
+        <input type="text" id="api_key" name="api_key" placeholder="your-api-key-here" required class="rounded-lg px-3 py-2 bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <button type="submit" class="mt-2 bg-violet-500 text-white font-semibold rounded-lg px-5 py-2 shadow">Connect now</button>
+    </form>
+    {{end}}
+
+  </div>
+
+  <script>
+  document.querySelector('select[name="user_id"]')?.addEventListener('change', function(e) {
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    document.querySelector('input[name="user_name"]').value = selectedOption.text;
+  });
+  </script>
+
+</body>
+</html>
