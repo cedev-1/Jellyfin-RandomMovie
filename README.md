@@ -6,6 +6,8 @@ Simple web app for find a random movie from your Jellyfin Server.
 
 ## Installation
 ```bash
+git clone https://github.com/cedev-1/Jellyfin-RandomMovie.git
+cd Jellyfin-RandomMovie
 docker-compose up -d --build
 ````
 
