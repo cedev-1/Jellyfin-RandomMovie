@@ -77,7 +77,9 @@ func loadConfig() error {
 }
 
 func saveConfig(c Config) error {
-	// Essayer d'abord dans le volume Docker
+	// ------------------------------------
+	//       Test in docker volume
+	// ------------------------------------
 	configPath := "/app/data/config.json"
 	dirPath := "/app/data"
 
@@ -95,6 +97,9 @@ func saveConfig(c Config) error {
 	return os.WriteFile(configPath, data, 0644)
 }
 
+// ------------------------------------
+//     Get all users of the server
+// ------------------------------------
 func getUsers() ([]User, error) {
 	url := config.JellyfinURL + "/Users"
 
@@ -122,7 +127,9 @@ func getUsers() ([]User, error) {
 	return users, nil
 }
 
-// Alternative version that checks the content of each library
+// ------------------------------------
+//    Get content of each libraries
+// ------------------------------------
 func getLibraries() error {
 	url := fmt.Sprintf("%s/Library/MediaFolders", config.JellyfinURL)
 
@@ -208,6 +215,9 @@ func checkLibraryHasMovies(libraryId string) (bool, error) {
 	return result.TotalRecordCount > 0, nil
 }
 
+// ------------------------------------
+//       Get a random movie
+// ------------------------------------
 func getRandomMovie(libraryId string) (*Movie, error) {
 	url := fmt.Sprintf("%s/Users/%s/Items?ParentId=%s&IncludeItemTypes=Movie&Recursive=true&Fields=ProductionYear,RunTimeTicks,CommunityRating,Overview&StartIndex=0&Limit=1000",
 		config.JellyfinURL, config.UserID, libraryId)
