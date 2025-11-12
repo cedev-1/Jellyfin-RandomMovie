@@ -1,6 +1,7 @@
 services:
   jellyfin-random:
     build: .
+    # image: cedev/random-movie-jellyfin:v1
     ports:
       - "8080:8080"
     volumes:
